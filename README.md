@@ -14,7 +14,7 @@
 - Search: debounce (client/endpoint)
 - Code Organization: clean separation between UI and data responsibilities
 
-Extra Features
+###Extra Features
 - pull to refresh
 - image loading placeholder / error handling
 - small ui/ux detail
@@ -32,24 +32,24 @@ Extra Features
 - Jest
 - React Native Testing Library
 
-# Expo
+### Expo
 
 Allows the application to be tested quickly on both iOS and Android devices
 
-# TypeScript
+### TypeScript
 
 Provides compile time type checking for application logic
 
-# TanStack Query
+### TanStack Query
 
 TanStack Query provides caching, loading/error states and pagination without requiring the product data
 to be stored in a client side state.
 
-# NativeWind
+### NativeWind
 
 Transferrable skills from web development (Tailwind CSS) while working on Mobile Development using React Native.
 
-# Jest / React Native Testing Library
+### Jest / React Native Testing Library
 
 Verify application and data behavior.
 
