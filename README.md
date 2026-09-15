@@ -20,7 +20,7 @@
 - small ui/ux detail
 - unit testing
 
-## Tech Stack
+## Tech Stack and Tools
 
 - React Native
 - Exp
@@ -31,6 +31,7 @@
 - NativeWind
 - Jest
 - React Native Testing Library
+- Postman
 
 ### Expo
 
@@ -53,10 +54,14 @@ Transferrable skills from web development (Tailwind CSS) while working on Mobile
 
 Verify application and data behavior.
 
+### Postman
+
+Test and verify API Endpoint response data and errors
+
 ## TODO
-- Init React Navigation
-- Configure Navigation
-- Configure API
+- ~~Init React Navigation~~
+- ~~Configure Navigation~~
+- ~~Configure API~~
 - Add Product List
 - Product List: Pagination
 - Product List: title, thumbnail, price
