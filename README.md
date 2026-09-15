@@ -14,7 +14,7 @@
 - Search: debounce (client/endpoint)
 - Code Organization: clean separation between UI and data responsibilities
 
-###Extra Features
+### Extra Features
 - pull to refresh
 - image loading placeholder / error handling
 - small ui/ux detail
