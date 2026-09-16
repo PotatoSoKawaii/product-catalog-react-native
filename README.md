@@ -57,7 +57,7 @@ Scan the QR code displayed in the terminal.
 ## Tech Stack and Tools
 
 - React Native
-- Exp
+- Expo
 - TypeScript
 - React Navigation
 - TanStack Query
