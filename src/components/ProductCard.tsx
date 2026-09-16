@@ -1,14 +1,30 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
 
 import type { 
-    ProductCardProps
+    ProductCardProps,
+    HomeStackParamList
 } from '../types/product'
+
+import type {
+     NativeStackNavigationProp 
+} from '@react-navigation/native-stack';
+
+type NavigationProp = NativeStackNavigationProp<HomeStackParamList>;
 
 export default function ProductCard({
     product
 }: ProductCardProps) {
+    const navigation = useNavigation<NavigationProp>();
+
+    function onProductPress() {
+        navigation.navigate("ProductDetail", {
+            productId: product.id
+        })
+    }
+
     return (
-        <View style={styles.card}>
+        <Pressable onPress={onProductPress} style={styles.card}>
             <Image source={{ uri: product.thumbnail }} style={styles.image} />
 
             <View style={styles.info}>
@@ -20,7 +36,7 @@ export default function ProductCard({
                     ${product.price.toFixed(2)}
                 </Text>
             </View>
-        </View>
+        </Pressable>
     )
 }
 

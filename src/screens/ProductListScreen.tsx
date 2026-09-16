@@ -60,14 +60,6 @@ export default function ProductListScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 6,
-        // flex: 1,
-        // flexDirection: 'column',
-        // justifyContent: 'center',
-        // alignItems: 'center',
-    },
-    // title: {
-    //     fontSize: 16,
-    //     fontWeight: '500',
-    // },
+        paddingVertical: 6
+    }
 });
