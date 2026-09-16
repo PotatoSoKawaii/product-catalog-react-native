@@ -60,27 +60,31 @@ export function useProducts() {
 
     // fetch product based on search value
     useEffect(() => {
-        // ensure there's no leading space
-        if (!debounceSearch.trim()) {
-            getProducts({
-                limit: PAGE_SIZE,
-                skip: 0
-            }).then((data) => {
+        async function fetchProducts() {
+            // ensure there's no leading space
+            if (!debounceSearch.trim()) {
+                const data = await getProducts({
+                    limit: PAGE_SIZE,
+                    skip: 0
+                })
+
                 setProducts(data.products);
                 setSkip(0);
+
+                return;
+            }
+
+            const data = await searchProducts({
+                query: debounceSearch,
+                limit: PAGE_SIZE,
+                skip: 0
             })
-
-            return;
-        }
-
-        searchProducts({
-            query: debounceSearch,
-            limit: PAGE_SIZE,
-            skip: 0
-        }).then((data) => {
+            
             setProducts(data.products);
             setSkip(0);
-        })
+        }
+
+        fetchProducts()
     }, [debounceSearch])
 
     return {
