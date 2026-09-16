@@ -63,12 +63,12 @@ Test and verify API Endpoint response data and errors
 - ~~Configure Navigation~~
 - ~~Configure API~~
 - ~~Add Product List~~
-- Product List: Pagination
+- ~~Product List: Pagination~~
 - ~~Product List: title, thumbnail, price~~
 - ~~Add Product Detail~~
 - ~~Product Detail: description, price, rating, images~~
-- Add search
-- Search: debounce
+- ~~Add search~~
+- ~~Search: debounce~~
 - Add state handling: loading, error, empty, success
 - Pull to refresh
 - Image loading placeholder and error handling
