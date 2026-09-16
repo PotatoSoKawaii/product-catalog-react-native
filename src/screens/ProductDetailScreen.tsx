@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, Image } from 'react-native';
 
 import { getProduct } from '../api/productsApi';
 
@@ -41,8 +41,14 @@ export default function ProductDetailScreen({
     }
 
     return (
-        <View style={styles.container}>
-            <Image source={{ uri: product.thumbnail}} style={styles.image}/>
+        <ScrollView style={styles.detail}>
+            <ScrollView horizontal style={styles.images}>
+                {product.images.map((image) => {
+                    return (
+                        <Image key={image} source={{ uri: image }} style={styles.image}/>
+                    )
+                })}
+            </ScrollView>
 
             <Text style={styles.title}>
                 {product.title}
@@ -57,18 +63,26 @@ export default function ProductDetailScreen({
             <Text style={styles.description}>
                 {product.description}
             </Text>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
         padding: 16
+    },
+
+    detail: {
+        flex: 1,
+        padding: 16
+    },
+
+    images: {
+        marginVertical: 20
     },
 
     title: {
@@ -86,7 +100,7 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        width: '100%',
+        width: 350,
         height: 200,
         resizeMode: 'contain'
     }
