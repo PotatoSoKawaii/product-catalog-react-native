@@ -47,7 +47,8 @@ export function useProducts() {
     const {
         isPending,
         isError,
-        error
+        error,
+        refetch
     } = productsQuery;
 
     const products = productsQuery.data?.pages.flatMap(
@@ -68,6 +69,7 @@ export function useProducts() {
 
         // methods
         setSearch,
-        loadMoreProducts
+        loadMoreProducts,
+        refetch
     };
 }

@@ -1,4 +1,4 @@
-import { Text, View, FlatList, StyleSheet } from 'react-native';
+import { Text, View, FlatList, StyleSheet, Button } from 'react-native';
 
 import ProductCard from '../components/ProductCard';
 import ProductSearch from '../components/ProductSearch';
@@ -15,6 +15,7 @@ export default function ProductListScreen() {
 
         setSearch,
         loadMoreProducts,
+        refetch
     } = useProducts()
 
     return (
@@ -30,6 +31,8 @@ export default function ProductListScreen() {
             {isError && (
                 <View style={styles.content}>
                     <Text>{error?.message || 'Error'}</Text>
+
+                    <Button title='Retry' onPress={() => refetch()}/>
                 </View>
             )}
 
