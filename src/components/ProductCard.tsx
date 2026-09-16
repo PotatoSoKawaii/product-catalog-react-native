@@ -12,6 +12,8 @@ import type {
 
 type NavigationProp = NativeStackNavigationProp<HomeStackParamList>;
 
+import ProductRating from './ProductRating';
+
 export default function ProductCard({
     product
 }: ProductCardProps) {
@@ -35,6 +37,8 @@ export default function ProductCard({
                 <Text style={styles.price}>
                     ${product.price.toFixed(2)}
                 </Text>
+
+                <ProductRating rating={product.rating}/>
             </View>
         </Pressable>
     )
@@ -44,8 +48,6 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: 'row',
         padding: 12,
-        marginHorizontal: 16,
-        marginVertical: 6,
         borderWidth: 1,
         borderRadius: 8,
     },
@@ -60,6 +62,8 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 12,
         justifyContent: 'center',
+        flexDirection: 'column',
+        gap: 4
     },
 
     title: {
@@ -68,7 +72,6 @@ const styles = StyleSheet.create({
     },
 
     price: {
-        marginTop: 8,
         fontSize: 15,
     },
 });

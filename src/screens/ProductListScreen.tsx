@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/productsApi';
 
@@ -51,6 +51,7 @@ export default function ProductListScreen() {
                     <ProductCard product={item}/>
                 )
             }}
+            ItemSeparatorComponent={() => <View style={{ height: 12 }}/>}
             onEndReached={loadMoreProducts}
             onEndReachedThreshold={0.5}
             contentContainerStyle={styles.container}
@@ -60,6 +61,7 @@ export default function ProductListScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 6
+        paddingVertical: 6,
+        paddingHorizontal: 16
     }
 });

@@ -16,6 +16,8 @@ type ProductDetailScreenProps = {
     }
 }
 
+import ProductRating from '../components/ProductRating';
+
 export default function ProductDetailScreen({ 
     route 
 }: ProductDetailScreenProps) {
@@ -47,8 +49,10 @@ export default function ProductDetailScreen({
             </Text>
 
             <Text style={styles.price}>
-                {product.price}
+                ${product.price.toFixed(2)}
             </Text>
+
+            <ProductRating rating={product.rating}/>
 
             <Text style={styles.description}>
                 {product.description}
@@ -62,7 +66,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        gap: 8,
+        padding: 16
     },
 
     title: {
@@ -72,11 +78,11 @@ const styles = StyleSheet.create({
 
     price: {
         fontSize: 16,
-        marginVertical: 12
     },
 
     description: {
-        fontSize: 16
+        fontSize: 16,
+        marginTop: 10
     },
 
     image: {

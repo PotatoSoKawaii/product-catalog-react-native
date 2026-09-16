@@ -62,11 +62,11 @@ Test and verify API Endpoint response data and errors
 - ~~Init React Navigation~~
 - ~~Configure Navigation~~
 - ~~Configure API~~
-- Add Product List
+- ~~Add Product List~~
 - Product List: Pagination
-- Product List: title, thumbnail, price
-- Add Product Detail
-- Product Detail: description, price, rating, images
+- ~~Product List: title, thumbnail, price~~
+- ~~Add Product Detail~~
+- ~~Product Detail: description, price, rating, images~~
 - Add search
 - Search: debounce
 - Add state handling: loading, error, empty, success
