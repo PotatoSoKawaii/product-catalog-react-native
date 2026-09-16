@@ -69,7 +69,7 @@ Test and verify API Endpoint response data and errors
 - ~~Product Detail: description, price, rating, images~~
 - ~~Add search~~
 - ~~Search: debounce~~
-- Add state handling: loading, error, empty, success
+- ~~Add state handling: loading, error empty, success~~
 - Pull to refresh
 - Image loading placeholder and error handling
 - Unit test

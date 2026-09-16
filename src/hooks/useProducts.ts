@@ -43,6 +43,12 @@ export function useProducts() {
             return nextSkip;
         }
     })
+    
+    const {
+        isPending,
+        isError,
+        error
+    } = productsQuery;
 
     const products = productsQuery.data?.pages.flatMap(
         (page) => page.products
@@ -56,6 +62,9 @@ export function useProducts() {
         // state
         products,
         search,
+        isPending,
+        isError,
+        error,
 
         // methods
         setSearch,
