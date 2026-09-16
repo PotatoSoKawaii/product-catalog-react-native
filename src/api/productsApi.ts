@@ -1,7 +1,8 @@
 import apiClient from './client';
 import type {
     ProductResponse,
-    Product
+    Product,
+    ProductSearchParams
 } from '../types/product';
 
 // get product list
@@ -28,6 +29,26 @@ export async function getProduct({ productId }: {
 }): Promise<Product> {
     const response = await apiClient.get<Product>(
         `/products/${productId}`,
+    );
+
+    return response.data;
+}
+
+// search product
+export async function searchProducts({
+    query,
+    limit,
+    skip
+}: ProductSearchParams): Promise<ProductResponse> {
+    const response = await apiClient.get<ProductResponse>(
+        '/products/search',
+        {
+            params: {
+                q: query,
+                limit,
+                skip
+            },
+        },
     );
 
     return response.data;

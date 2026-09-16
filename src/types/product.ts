@@ -27,3 +27,9 @@ export interface ProductResponse {
 export type ProductCardProps = {
     product: Product
 }
+
+export type ProductSearchParams = {
+    query: string;
+    limit: number;
+    skip: number;
+}

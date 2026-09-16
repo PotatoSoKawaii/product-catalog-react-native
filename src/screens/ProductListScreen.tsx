@@ -1,21 +1,43 @@
 import { View, FlatList, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
-import { getProducts } from '../api/productsApi';
+import { getProducts, searchProducts } from '../api/productsApi';
 
 import type { 
     Product 
 } from '../types/product';
 
 import ProductCard from '../components/ProductCard';
+import ProductSearch from '../components/ProductSearch';
 
 const PAGE_SIZE = 20; // make default limit of 20 data for one pagination
 
 export default function ProductListScreen() {
     const [products, setProducts] = useState<Product[]>([]);
     const [skip, setSkip] = useState(0);
+    const [search, setSearch] = useState('');
 
     async function loadMoreProducts() {
         const nextSkip = skip + PAGE_SIZE;
+
+        // load more products based on search value
+        if (search.trim()) {
+            const data = await searchProducts({
+                query: search,
+                limit: PAGE_SIZE,
+                skip: nextSkip
+            })
+
+            setProducts((currentProducts) => {
+                // merge current data with new data
+                return [
+                    ...currentProducts,
+                    ...data.products
+                ]
+            })
+
+            setSkip(nextSkip)
+            return;
+        }
 
         const data = await getProducts({
             limit: PAGE_SIZE,
@@ -33,6 +55,7 @@ export default function ProductListScreen() {
         setSkip(nextSkip);
     }
 
+    // fetch products on load
     useEffect(() => {
         getProducts({
             limit: PAGE_SIZE,
@@ -42,26 +65,48 @@ export default function ProductListScreen() {
         })
     }, [])
 
+    // fetch product based on search value
+    useEffect(() => {
+        // ensure there's no leading space
+        if (!search.trim()) return;
+
+        searchProducts({
+            query: search,
+            limit: PAGE_SIZE,
+            skip: 0
+        }).then((data) => {
+            setProducts(data.products);
+            setSkip(0);
+        })
+        
+    }, [search])
+
     return (
-        <FlatList
-            data={products}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => {
-                return (
-                    <ProductCard product={item}/>
-                )
-            }}
-            ItemSeparatorComponent={() => <View style={{ height: 12 }}/>}
-            onEndReached={loadMoreProducts}
-            onEndReachedThreshold={0.5}
-            contentContainerStyle={styles.container}
-        />
+        <View style={styles.container}>
+            <ProductSearch value={search} onChangeText={setSearch}/>
+            <FlatList
+                data={products}
+                keyExtractor={(item) => item.id.toString()}
+                renderItem={({ item }) => {
+                    return (
+                        <ProductCard product={item}/>
+                    )
+                }}
+                ItemSeparatorComponent={() => <View style={{ height: 12 }}/>}
+                onEndReached={loadMoreProducts}
+                onEndReachedThreshold={0.5}
+                contentContainerStyle={styles.container}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 6,
+        gap: 6
+    },
+    list: {
+        paddingVertical: 10,
         paddingHorizontal: 16
     }
 });
