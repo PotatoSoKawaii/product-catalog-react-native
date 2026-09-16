@@ -1,4 +1,4 @@
-import { StyleSheet, ScrollView } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/productsApi';
 
@@ -8,12 +8,34 @@ import type {
 
 import ProductCard from '../components/ProductCard';
 
+const PAGE_SIZE = 20; // make default limit of 20 data for one pagination
+
 export default function ProductListScreen() {
     const [products, setProducts] = useState<Product[]>([]);
+    const [skip, setSkip] = useState(0);
+
+    async function loadMoreProducts() {
+        const nextSkip = skip + PAGE_SIZE;
+
+        const data = await getProducts({
+            limit: PAGE_SIZE,
+            skip: nextSkip
+        })
+
+        setProducts((currentProducts) => {
+            // merge current data with new data
+            return [
+                ...currentProducts,
+                ...data.products
+            ]
+        })
+
+        setSkip(nextSkip);
+    }
 
     useEffect(() => {
         getProducts({
-            limit: 20,
+            limit: PAGE_SIZE,
             skip: 0
         }).then((data) => {
             setProducts(data.products)
@@ -21,25 +43,31 @@ export default function ProductListScreen() {
     }, [])
 
     return (
-        <ScrollView style={styles.container}>            
-            {products.map((product) => {
+        <FlatList
+            data={products}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => {
                 return (
-                    <ProductCard key={product.id} product={product}/>
+                    <ProductCard product={item}/>
                 )
-            })}
-        </ScrollView>
+            }}
+            onEndReached={loadMoreProducts}
+            onEndReachedThreshold={0.5}
+            contentContainerStyle={styles.container}
+        />
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        paddingVertical: 6,
+        // flex: 1,
         // flexDirection: 'column',
         // justifyContent: 'center',
         // alignItems: 'center',
     },
-    title: {
-        fontSize: 16,
-        fontWeight: '500',
-    },
+    // title: {
+    //     fontSize: 16,
+    //     fontWeight: '500',
+    // },
 });
