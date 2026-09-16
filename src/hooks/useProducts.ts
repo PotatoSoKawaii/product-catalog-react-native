@@ -15,10 +15,18 @@ export function useProducts() {
         value: search,
         delay: DEBOUNCE_DELAY
     })
-    
+
     const productsQuery = useInfiniteQuery({
-        queryKey: ['products'],
+        queryKey: ['products', debounceSearch],
         queryFn: ({ pageParam }) => {
+            if (debounceSearch.trim()) {
+                return searchProducts({
+                    query: debounceSearch,
+                    limit: PAGE_SIZE,
+                    skip: pageParam
+                })
+            }
+
             return getProducts({
                 limit: PAGE_SIZE,
                 skip: pageParam
