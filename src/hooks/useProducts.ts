@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { getProducts, searchProducts } from "../api/productsApi";
-
-import type { Product } from "../types/product";
 
 import { useDebounce } from "./useDebounce";
 
@@ -10,8 +9,6 @@ const PAGE_SIZE = 20;
 const DEBOUNCE_DELAY = 200;
 
 export function useProducts() {
-    const [products, setProducts] = useState<Product[]>([]);
-    const [skip, setSkip] = useState(0);
     const [search, setSearch] = useState('');
 
     const debounceSearch = useDebounce({
@@ -19,73 +16,33 @@ export function useProducts() {
         delay: DEBOUNCE_DELAY
     })
     
-    async function loadMoreProducts() {
-        const nextSkip = skip + PAGE_SIZE;
-
-        // load more products based on search value
-        if (debounceSearch.trim()) {
-            const data = await searchProducts({
-                query: debounceSearch,
+    const productsQuery = useInfiniteQuery({
+        queryKey: ['products'],
+        queryFn: ({ pageParam }) => {
+            return getProducts({
                 limit: PAGE_SIZE,
-                skip: nextSkip
+                skip: pageParam
             })
+        },
+        initialPageParam: 0,
+        getNextPageParam: (lastPage) => {
+            const nextSkip = lastPage.skip + lastPage.limit;
 
-            setProducts((currentProducts) => {
-                // merge current data with new data
-                return [
-                    ...currentProducts,
-                    ...data.products
-                ]
-            })
-
-            setSkip(nextSkip)
-            return;
-        }
-
-        const data = await getProducts({
-            limit: PAGE_SIZE,
-            skip: nextSkip
-        })
-
-        setProducts((currentProducts) => {
-            // merge current data with new data
-            return [
-                ...currentProducts,
-                ...data.products
-            ]
-        })
-
-        setSkip(nextSkip);
-    }
-
-    // fetch product based on search value
-    useEffect(() => {
-        async function fetchProducts() {
-            // ensure there's no leading space
-            if (!debounceSearch.trim()) {
-                const data = await getProducts({
-                    limit: PAGE_SIZE,
-                    skip: 0
-                })
-
-                setProducts(data.products);
-                setSkip(0);
-
-                return;
+            if (nextSkip >= lastPage.total) {
+                return undefined;
             }
 
-            const data = await searchProducts({
-                query: debounceSearch,
-                limit: PAGE_SIZE,
-                skip: 0
-            })
-            
-            setProducts(data.products);
-            setSkip(0);
+            return nextSkip;
         }
+    })
 
-        fetchProducts()
-    }, [debounceSearch])
+    const products = productsQuery.data?.pages.flatMap(
+        (page) => page.products
+    ) ?? [];
+    
+    function loadMoreProducts() {
+        if (productsQuery.hasNextPage) productsQuery.fetchNextPage();
+    }
 
     return {
         // state
