@@ -5,7 +5,41 @@
 - Product Catalog App using DummyJSON API
 - Contains: List, Detail, Search
 
-## Requirements
+## How to run?
+
+### Prerequisites
+- Node.js
+- Expo Go (mobile app)
+- Expo Account (to log in to Expo Go)
+
+### Clone the repository:
+```bash
+git clone https://github.com/PotatoSoKawaii/product-catalog-react-native.git
+cd product-catalog-react-native
+npm install
+```
+### Environment Configuration:
+Copy the .env.template file to .env:
+```bash
+cp .env.template .env
+```
+### Run the application
+1) Log in to Expo on CLI
+
+```bash
+npx expo login
+```
+Enter your credentials when prompted.
+
+2) Open Expo Go on your mobile and sign in to the same account.
+
+3) Start the server
+```bash
+npx expo start
+```
+Scan the QR code displayed in the terminal.
+
+## App Requirements
 
 - Product listing with title, thumbnail, and price
 - Pagination: Load more using `skip`
@@ -58,6 +92,12 @@ Verify application and data behavior.
 
 Test and verify API Endpoint response data and errors
 
+## Search box product filtering
+Using debounce on server side search through the endpoint to reduce unnecessary API calls where it fetch only necessary data instead of fetching all data and do a filtering from client side which may 
+
+## AI Usage
+AI usage was primarily used on assisting in transitioning from web to mobile development. For example: Tailwind (NativeWind), React Router (React Navigation), Mobile Architecture
+
 ## TODO
 - ~~Init React Navigation~~
 - ~~Configure Navigation~~
@@ -70,6 +110,6 @@ Test and verify API Endpoint response data and errors
 - ~~Add search~~
 - ~~Search: debounce~~
 - ~~Add state handling: loading, error empty, success~~
-- Pull to refresh
+- ~~Pull to refresh~~
 - Image loading placeholder and error handling
 - Unit test
