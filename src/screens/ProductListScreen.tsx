@@ -12,6 +12,7 @@ export default function ProductListScreen() {
         isPending,
         isError,
         error,
+        isRefetching,
 
         setSearch,
         loadMoreProducts,
@@ -55,6 +56,9 @@ export default function ProductListScreen() {
                     onEndReached={loadMoreProducts}
                     onEndReachedThreshold={0.5}
                     contentContainerStyle={styles.list}
+
+                    refreshing={isRefetching}
+                    onRefresh={refetch}
                 />
             )}
         </View>
