@@ -9,6 +9,8 @@ import type {
 import ProductCard from '../components/ProductCard';
 import ProductSearch from '../components/ProductSearch';
 
+import { useDebounce } from '../hooks/useDebounce';
+
 const PAGE_SIZE = 20; // make default limit of 20 data for one pagination
 
 export default function ProductListScreen() {
@@ -16,13 +18,18 @@ export default function ProductListScreen() {
     const [skip, setSkip] = useState(0);
     const [search, setSearch] = useState('');
 
+    const debounceSearch = useDebounce({ 
+        value: search,
+        delay: 200
+    })
+
     async function loadMoreProducts() {
         const nextSkip = skip + PAGE_SIZE;
 
         // load more products based on search value
-        if (search.trim()) {
+        if (debounceSearch.trim()) {
             const data = await searchProducts({
-                query: search,
+                query: debounceSearch,
                 limit: PAGE_SIZE,
                 skip: nextSkip
             })
@@ -68,10 +75,20 @@ export default function ProductListScreen() {
     // fetch product based on search value
     useEffect(() => {
         // ensure there's no leading space
-        if (!search.trim()) return;
+        if (!debounceSearch.trim()) {
+            getProducts({
+                limit: PAGE_SIZE,
+                skip: 0
+            }).then((data) => {
+                setProducts(data.products);
+                setSkip(0);
+            })
+            
+            return;
+        }
 
         searchProducts({
-            query: search,
+            query: debounceSearch,
             limit: PAGE_SIZE,
             skip: 0
         }).then((data) => {
@@ -79,7 +96,7 @@ export default function ProductListScreen() {
             setSkip(0);
         })
         
-    }, [search])
+    }, [debounceSearch])
 
     return (
         <View style={styles.container}>
