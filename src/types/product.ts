@@ -1,9 +1,12 @@
+// navigation
 export type HomeStackParamList = {
     ProductList: undefined;
     ProductDetail: {
         productId: number;
     };
 };
+
+// product
 export interface Product {
     id: number;
     title: string;
@@ -19,4 +22,8 @@ export interface ProductResponse {
     total: number;
     skip: number;
     limit: number;
+}
+
+export type ProductCardProps = {
+    product: Product
 }

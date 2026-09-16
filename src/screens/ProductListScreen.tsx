@@ -1,10 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import { useEffect, useState } from 'react';
 import { getProducts } from '../api/productsApi';
 
 import type { 
     Product 
 } from '../types/product';
+
+import ProductCard from '../components/ProductCard';
 
 export default function ProductListScreen() {
     const [products, setProducts] = useState<Product[]>([]);
@@ -19,26 +21,22 @@ export default function ProductListScreen() {
     }, [])
 
     return (
-        <View style={styles.container}>
-            <Text>Products</Text>
-            
+        <ScrollView style={styles.container}>            
             {products.map((product) => {
                 return (
-                    <Text key={product.id}>
-                        {product.title}
-                    </Text>
+                    <ProductCard key={product.id} product={product}/>
                 )
             })}
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
+        // flexDirection: 'column',
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     title: {
         fontSize: 16,
